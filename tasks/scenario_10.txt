@@ -1,0 +1,8 @@
+Read the news article and write a factual summary.
+
+Rules:
+
+1. Use no more than two sentences (preferably two).
+2. Do not add opinions, interpretations, or new information.
+3. If the total exceeds 50 words, keep only the earliest complete sentence(s) within 50 words.
+4. Output only the summary text.
