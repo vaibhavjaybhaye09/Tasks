@@ -1,0 +1,17 @@
+{% for s in stations %}
+<div class="station-card">
+
+    <h4>{{ s.name }}</h4>
+
+    <h2 style="color:{% if s.status == 'WRONG' %}red{% else %}green{% endif %}">
+        {{ s.value }}
+    </h2>
+
+    <ul>
+        {% for t in s.thresholds %}
+            <li>{{ t.status_type }} : {{ t.limit_value }}</li>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endfor %}
