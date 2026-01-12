@@ -1,0 +1,16 @@
+/* Layout */
+.app-shell { min-height:100vh; }
+.sidebar { width:220px; min-height:100vh; }
+.logo-img { width:140px; }
+.topbar { background:#fff; }
+
+/* Station card */
+.station-card { background: #0d6efd; color: white; border-radius:8px; min-height:140px; display:flex; flex-direction:column; justify-content:space-between; }
+.station-card .value { font-weight:700; }
+.station-card .btn { font-size:0.85rem; }
+
+/* Small responsive fixes */
+@media (max-width:575px) {
+  .sidebar { display:none; }
+  .app-shell { flex-direction:column; }
+}

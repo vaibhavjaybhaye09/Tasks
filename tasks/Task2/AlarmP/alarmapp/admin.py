@@ -1,3 +1,10 @@
 from django.contrib import admin
+from .models import Station, Threshold
 
-# Register your models here.
+@admin.register(Station)
+class StationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'current_value')
+
+@admin.register(Threshold)
+class ThresholdAdmin(admin.ModelAdmin):
+    list_display = ('id', 'station', 'limit_value', 'status_type')

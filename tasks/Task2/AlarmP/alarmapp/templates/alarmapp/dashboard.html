@@ -1,17 +1,27 @@
-{% for s in stations %}
-<div class="station-card">
+{% extends 'alarmapp/base.html' %}
+{% load static %}
 
-    <h4>{{ s.name }}</h4>
+{% block title %}Dashboard{% endblock %}
 
-    <h2 style="color:{% if s.status == 'WRONG' %}red{% else %}green{% endif %}">
+{% block content %}
+<div class="dashboard-container">
+
+  <div class="station-grid">
+    {% for s in stations %}
+    <div class="station-card">
+
+      <div class="station-title">
+        {{ s.name }}
+      </div>
+
+      <div class="station-value
+        {% if s.status == 'WRONG' %}value-red{% else %}value-green{% endif %}">
         {{ s.value }}
-    </h2>
+      </div>
 
-    <ul>
-        {% for t in s.thresholds %}
-            <li>{{ t.status_type }} : {{ t.limit_value }}</li>
-        {% endfor %}
-    </ul>
+    </div>
+    {% endfor %}
+  </div>
 
 </div>
-{% endfor %}
+{% endblock %}
