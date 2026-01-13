@@ -1,33 +1,26 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 
 
 class Station(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    current_value = models.IntegerField(default=0)
+    current_value = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name
 
 
 class Threshold(models.Model):
-    STATUS_CHOICES = (
-        ('RIGHT', 'Right'),
-        ('WRONG', 'Wrong'),
-    )
-
-    station = models.ForeignKey(
+    station = models.OneToOneField(
         Station,
         on_delete=models.CASCADE,
-        related_name='thresholds'
+        related_name='threshold'
     )
-    limit_value = models.IntegerField()
-    status_type = models.CharField(
-        max_length=10,
-        choices=STATUS_CHOICES
+    limit_value = models.PositiveIntegerField(
+        validators=[MinValueValidator(1)]
     )
-
-    class Meta:
-        ordering = ['limit_value']
 
     def __str__(self):
-        return f"{self.station.name} - {self.status_type} ({self.limit_value})"
+        return f"{self.station.name} → Limit {self.limit_value}"
+    class Meta:
+        unique_together = ('station', 'limit_value')
