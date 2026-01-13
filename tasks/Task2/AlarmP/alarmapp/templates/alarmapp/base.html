@@ -4,51 +4,74 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>{% block title %}Monitoring System{% endblock %}</title>
- <link rel="icon" type="image/png" href="{% static 'alarmapp/images/logo.png' %}">
-  
+
+  <link rel="icon" type="image/png" href="{% static 'alarmapp/images/logo.png' %}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
- 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link href="{% static 'alarmapp/css/style.css' %}" rel="stylesheet">
 </head>
 
 <body>
-  <div class="app-shell d-flex">
+<div class="app-shell d-flex">
+  <!-- SIDEBAR -->
+  <nav class="sidebar bg-primary text-white p-3">
+    <ul class="nav flex-column gap-1">
+      <li class="nav-item"><a class="nav-link text-white" href="{% url 'dashboard' %}"><i class="fa-solid fa-house-flag"></i>Home</a></li>
+      <li class="nav-item"><a class="nav-link text-white" href="{% url 'add_station' %}"><i class="fa-solid fa-plus-circle"></i>Add Station</a></li>
+      <li class="nav-item"><a class="nav-link text-white" href="/admin/"><i class="fa-solid fa-cog"></i>Master</a></li>
+      <li class="nav-item"><a class="nav-link text-white" href="#"><i class="fa-solid fa-clock"></i>Shift</a></li>
+      <li class="nav-item"><a class="nav-link text-white" href="#"><i class="fa-solid fa-file-alt"></i>Report</a></li>
+      <li class="nav-item"><a class="nav-link text-white" href="#"><i class="fa-solid fa-envelope"></i>Contact</a></li>
+      <li class="nav-item"><a class="nav-link text-white" href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a></li>
+    </ul>
+  </nav>
 
-    <!-- SIDEBAR -->
-    <nav class="sidebar bg-primary text-white p-3">
-      <!-- <img src="{% static 'alarmapp/img/logo.png' %}" class="logo-img mb-3" alt="Logo"> -->
-      <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link text-white" href="{% url 'dashboard' %}">Home</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="{% url 'add_station' %}">Add Station</a></li>
-     
-        <li class="nav-item"><a class="nav-link text-white" href="/admin/">Admin</a></li>
-      </ul>
-    </nav>
+  <!-- CONTENT -->
+  <div class="page-content flex-fill">
+   <header class="topbar d-flex justify-content-between align-items-center px-4 py-2 border-bottom">
+    <h4 class="mb-0">{% block header %}Monitoring System{% endblock %}</h4>
 
-    <!-- MAIN CONTENT -->
-    <div class="page-content flex-fill">
-
-      <header class="topbar d-flex justify-content-between align-items-center px-4 py-2 border-bottom">
-        <h4 class="mb-0">{% block header %}Monitoring System{% endblock %}</h4>
-        <div class="small text-muted">
-          {% now "d-m-Y H:i:s" %}
-        </div>
-      </header>
-
-      <main class="container-fluid p-4">
-        {% block content %}{% endblock %}
-      </main>
-
-      <footer class="text-center py-3 border-top">
-        Developed by Team AT
-      </footer>
-
+    <div class="small text-muted" id="liveClock">
+        <!-- Live time will appear here -->
     </div>
-  </div>
+</header>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <main class="container-fluid p-4">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-center py-3 border-top">
+      Developed by Team AT
+    </footer>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function updateLiveClock() {
+    const now = new Date();
+
+    const day   = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year  = now.getFullYear();
+
+    const hours   = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    const formattedTime = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+
+    document.getElementById("liveClock").innerText = formattedTime;
+}
+
+// Initial call
+updateLiveClock();
+
+// Update every second
+setInterval(updateLiveClock, 1000);
+</script>
+
 </body>
 </html>

@@ -1,9 +1,26 @@
 /* =============================
-   DASHBOARD GRID
+   GLOBAL LAYOUT
+============================= */
+
+.app-shell {
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 220px;
+    min-height: 100vh;
+}
+
+.topbar {
+    background: #ffffff;
+}
+
+/* =============================
+   DASHBOARD
 ============================= */
 
 .dashboard-container {
-    padding: 30px;
+    padding: 10px 20px;
 }
 
 .station-grid {
@@ -20,14 +37,14 @@
     position: relative;
     background: linear-gradient(145deg, #0b3c7d, #062b5b);
     border-radius: 14px;
-    min-height: 190px;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    min-height: 150px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
     color: #ffffff;
     overflow: hidden;
 }
 
 .card-body {
-    padding: 45px 20px 18px;
+    padding: 38px 18px 16px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -35,7 +52,7 @@
 }
 
 /* =============================
-   ALERT BANNER
+   ALERT BANNER (TOP)
 ============================= */
 
 .alert-top {
@@ -44,7 +61,7 @@
     left: 0;
     right: 0;
     background: linear-gradient(90deg, #b71c1c, #ff5252);
-    color: #fff;
+    color: #ffffff;
     font-size: 12px;
     font-weight: 700;
     text-align: center;
@@ -52,13 +69,13 @@
 }
 
 /* =============================
-   HEADER
+   CARD HEADER
 ============================= */
 
 .station-header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: flex-start;
 }
 
 .station-name {
@@ -67,31 +84,35 @@
     margin: 0;
 }
 
-/* STATUS DOT */
-.status-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+/* =============================
+   LIMIT BADGE (TOP RIGHT)
+============================= */
+
+.limit-badge {
+    background: rgba(255, 82, 82, 0.15);
+    color: #ff5252;
+    border: 1px solid #ff5252;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
 }
 
-.dot-green {
-    background: #2ecc71;
-}
-
-.dot-red {
-    background: #ff5252;
-    box-shadow: 0 0 8px #ff5252;
+.limit-none {
+    background: rgba(255, 255, 255, 0.15);
+    color: #dddddd;
+    border: 1px dashed rgba(255, 255, 255, 0.4);
 }
 
 /* =============================
-   VALUE
+   STATION VALUE
 ============================= */
 
 .station-value {
     text-align: center;
-    font-size: 42px;
+    font-size: 40px;
     font-weight: 700;
-    margin: 12px 0;
+    margin: 8px 0;
 }
 
 .value-green {
@@ -103,23 +124,12 @@
 }
 
 /* =============================
-   LIMIT
-============================= */
-
-.station-limit {
-    text-align: center;
-    font-size: 13px;
-    opacity: 0.9;
-}
-
-/* =============================
    ACTION BUTTONS
 ============================= */
 
 .card-actions {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
 }
 
 .card-actions .btn {
@@ -133,9 +143,15 @@
 ============================= */
 
 @keyframes alarm-blink {
-    0%   { box-shadow: 0 0 12px #ff5252; }
-    50%  { box-shadow: 0 0 28px #ff5252; }
-    100% { box-shadow: 0 0 12px #ff5252; }
+    0% {
+        box-shadow: 0 0 12px #ff5252;
+    }
+    50% {
+        box-shadow: 0 0 28px #ff5252;
+    }
+    100% {
+        box-shadow: 0 0 12px #ff5252;
+    }
 }
 
 .station-card.alarm {
@@ -143,32 +159,9 @@
 }
 
 /* =============================
-   HEADER WITH LIMIT BADGE
+   ALARM TOGGLE BUTTON
 ============================= */
 
-.station-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-/* LIMIT BADGE (TOP-RIGHT) */
-.limit-badge {
-    background: rgba(255, 82, 82, 0.15);
-    color: #ff5252;
-    border: 1px solid #ff5252;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 4px 8px;
-    border-radius: 6px;
-}
-
-/* WHEN NO LIMIT */
-.limit-none {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ddd;
-    border: 1px dashed rgba(255,255,255,0.4);
-}
 .alarm-btn {
     border-radius: 50%;
     width: 38px;
@@ -176,9 +169,31 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 .alarm-btn i {
     font-size: 16px;
+}
+/* Sidebar icons color */
+.sidebar .nav-link i {
+    color: #000000; /* black */
+    margin-right: 8px;
+}
+
+/* Keep text white */
+.sidebar .nav-link {
+    color: #ffffff;
+}
+/* Live Clock Styling */
+#liveClock {
+    font-weight: 500;
+}
+.sidebar .nav-link:hover i {
+    color: #ffffff;
+}
+/* Sidebar hover effect */
+.sidebar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
 }

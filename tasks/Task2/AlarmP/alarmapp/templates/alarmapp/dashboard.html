@@ -1,113 +1,83 @@
 {% extends 'alarmapp/base.html' %}
 {% load static %}
-
 {% block title %}Monitoring System{% endblock %}
 
 {% block content %}
-
 <div class="dashboard-container">
-    <button id="alarmToggleBtn"
-        class="btn btn-danger btn-sm alarm-btn"
-        onclick="toggleAlarm()"
-        title="Toggle Alarm Sound">
+
+  <!-- Alarm toggle (icon-only) -->
+  <button id="alarmToggleBtn"
+          class="btn btn-danger btn-sm alarm-btn mb-3"
+          onclick="toggleAlarm()"
+          title="Toggle Alarm Sound">
     <i id="alarmIcon" class="fa-solid fa-volume-high"></i>
-</button>
+  </button>
 
-    <div class="station-grid">
-        {% for s in stations %}
-        <div class="station-card {% if s.alarm %}alarm{% endif %}">
+  <div class="station-grid">
+    {% for s in stations %}
+    <div class="station-card {% if s.alarm %}alarm{% endif %}">
 
-            {% if s.alert %}
-            <div class="alert-top">
-                <span>⚠ {{ s.alert }}</span>
-            </div>
-            {% endif %}
+      {% if s.alert %}
+      <div class="alert-top"><span>⚠ {{ s.alert }}</span></div>
+      {% endif %}
 
-            <div class="card-body">
-                <div class="station-header">
-                    <h5 class="station-name">{{ s.name }}</h5>
+      <div class="card-body">
+        <div class="station-header">
+          <h5 class="station-name">{{ s.name }}</h5>
 
-                    {% if s.limit %}
-                    <div class="limit-badge">
-                        Limit {{ s.limit }}
-                    </div>
-                    {% else %}
-                    <div class="limit-badge limit-none">
-                        No Limit
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="station-value {% if s.alarm %}value-red{% else %}value-green{% endif %}">
-                    {{ s.value }}
-                </div>
-
-              
-
-                <div class="card-actions">
-                    <a href="{% url 'update_value' s.id %}" class="btn btn-outline-light btn-sm">
-                        Update Value
-                    </a>
-                    <a href="{% url 'update_limit' s.id %}" class="btn btn-outline-light btn-sm">
-                        Update Limit
-                    </a>
-                </div>
-            </div>
-
+          {% if s.limit %}
+            <div class="limit-badge">Limit {{ s.limit }}</div>
+          {% else %}
+            <div class="limit-badge limit-none">No Limit</div>
+          {% endif %}
         </div>
-        {% endfor %}
 
+        <div class="station-value {% if s.alarm %}value-red{% else %}value-green{% endif %}">
+          {{ s.value }}
+        </div>
 
+        <div class="card-actions">
+          <a href="{% url 'update_value' s.id %}" class="btn btn-outline-light btn-sm">Update Value</a>
+          <a href="{% url 'update_limit' s.id %}" class="btn btn-outline-light btn-sm">Update Limit</a>
+        </div>
+      </div>
     </div>
-
-    
+    {% endfor %}
+  </div>
 </div>
 
-
-
 <audio id="alarmSound" loop>
-    <source src="{% static 'alarmapp/sound/alarm.mp3' %}">
+  <source src="{% static 'alarmapp/sound/alarm.mp3' %}">
 </audio>
 
 <script>
-    const sound = document.getElementById("alarmSound");
-    const icon = document.getElementById("alarmIcon");
+  const sound = document.getElementById("alarmSound");
+  const icon  = document.getElementById("alarmIcon");
 
-    let alarmOn = false;
-    let userMuted = false;
+  let alarmOn = false;
+  let userMuted = false;
 
-   
-    {% for s in stations %}
-        {% if s.alarm %}
-            alarmOn = true;
-        {% endif %}
-    {% endfor %}
+  {% for s in stations %}
+    {% if s.alarm %} alarmOn = true; {% endif %}
+  {% endfor %}
 
-    // Auto play if alarm exists and not muted
-    if (alarmOn && !userMuted) {
-        sound.play().catch(() => {});
-        icon.className = "fa-solid fa-volume-high";
-    } else {
-        sound.pause();
-        sound.currentTime = 0;
-        icon.className = "fa-solid fa-volume-xmark";
+  if (alarmOn && !userMuted) {
+    sound.play().catch(()=>{});
+    icon.className = "fa-solid fa-volume-high";
+  } else {
+    sound.pause(); sound.currentTime = 0;
+    icon.className = "fa-solid fa-volume-xmark";
+  }
+
+  function toggleAlarm(){
+    userMuted = !userMuted;
+    if (userMuted){
+      sound.pause(); sound.currentTime = 0;
+      icon.className = "fa-solid fa-volume-xmark";
+    } else if (alarmOn){
+      sound.play().catch(()=>{});
+      icon.className = "fa-solid fa-volume-high";
     }
-
-    function toggleAlarm() {
-        userMuted = !userMuted;
-
-        if (userMuted) {
-            sound.pause();
-            sound.currentTime = 0;
-            icon.className = "fa-solid fa-volume-xmark";
-        } else {
-            if (alarmOn) {
-                sound.play().catch(() => {});
-                icon.className = "fa-solid fa-volume-high";
-            }
-        }
-    }
+  }
 </script>
-
-
-
 {% endblock %}
